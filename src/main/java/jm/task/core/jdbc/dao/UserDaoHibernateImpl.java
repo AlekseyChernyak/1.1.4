@@ -43,7 +43,7 @@ public class UserDaoHibernateImpl implements UserDao {
             Session session = sessionFactory.openSession();
             Transaction transaction = session.beginTransaction();
             try {
-                session.createNativeQuery("DROP TABLE EXISTS mytest").executeUpdate();
+                session.createNativeQuery("DROP TABLE IF EXISTS mytest").executeUpdate();
                 transaction.commit();
             } catch (HibernateException e) {
                 e.printStackTrace();
@@ -97,10 +97,11 @@ public class UserDaoHibernateImpl implements UserDao {
         Transaction transaction = session.beginTransaction();
         List<User> userList = session.createQuery(criteriaQuery).getResultList();
         try {
-            transaction.commit();
+            //transaction.commit();
             return userList;
         } catch (HibernateException e) {
-            transaction.rollback();
+            //transaction.rollback();
+            e.printStackTrace();
         } finally {
             session.close();
         }
